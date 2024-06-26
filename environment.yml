@@ -1,0 +1,29 @@
+name: tllib
+channels:
+    - pytorch
+    - nvidia
+    - conda-forge
+    - anaconda
+    - defaults
+dependencies:
+    - python=3.7
+    - cudatoolkit=11.1
+    - tqdm=4.61.2
+    - numpy=1.20.2
+    - matplotlib=3.4.2
+    - scipy=1.6.3
+    - ipykernel
+    - pandas
+    - pytorch=1.8.1
+    - torchvision=0.9.1
+    - pip
+    - pip:  
+        - pillow==9.0.0
+        - scikit_learn==1.0
+        - opencv_python==4.5.2.54
+        - timm==0.4.9
+        - h5py==3.2.1
+        - yacs==0.1.8
+        - prettytable
+        - webcolors
+        - numba   
