@@ -1,1 +1,0 @@
-CUDA_VISIBLE_DEVICES=0 python ../examples/domain_adaptation/image_classification/adda.py ../data/office31 -d Office31 -s A -t W -a resnet50 --epochs 3 --seed 1 --log logs/adda/Office31_A2W
