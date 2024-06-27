@@ -15,7 +15,7 @@ import torchvision.transforms as T
 from timm.data.auto_augment import auto_augment_transform, rand_augment_transform
 
 # sys.path.append('../../..')
-sys.path.append('../')
+sys.path.append('')
 import tllib.vision.datasets as datasets
 import tllib.vision.models as models
 from tllib.vision.transforms import ResizeImage
