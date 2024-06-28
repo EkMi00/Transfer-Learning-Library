@@ -92,7 +92,7 @@ def main(args: argparse.Namespace):
         source_feature = collect_feature(train_source_loader, feature_extractor, device)
         target_feature = collect_feature(train_target_loader, feature_extractor, device)
         # plot t-SNE
-        tSNE_filename = osp.join(logger.visualize_directory, 'TSNE.pdf')
+        tSNE_filename = osp.join(logger.visualize_directory, 'TSNE.png')
         tsne.visualize(source_feature, target_feature, tSNE_filename)
         print("Saving t-SNE to", tSNE_filename)
         # calculate A-distance, which is a measure for distribution discrepancy
@@ -104,6 +104,9 @@ def main(args: argparse.Namespace):
         acc1 = utils.validate(test_loader, classifier, args, device)
         print(acc1)
         return
+    
+    checkpoint = torch.load(args.pretrain, map_location='cpu')
+    classifier.load_state_dict(checkpoint)
 
     # start training
     best_acc1 = 0.
@@ -224,6 +227,8 @@ if __name__ == '__main__':
                         help='backbone architecture: ' +
                              ' | '.join(utils.get_model_names()) +
                              ' (default: resnet18)')
+    parser.add_argument('--pretrain', type=str, default=None,
+                        help='pretrain checkpoint for classification model')
     parser.add_argument('--bottleneck-dim', default=1024, type=int)
     parser.add_argument('--no-pool', action='store_true',
                         help='no pool layer after the feature extractor.')
