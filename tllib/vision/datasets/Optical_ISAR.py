@@ -14,7 +14,7 @@ class Optical_ISAR(ImageList):
     Args:
         root (str): Root directory of dataset
         task (str): The task (domain) to create dataset. Choices include ``'i'``: isar, \
-            and ``'o'``: webcam.
+            and ``'o'``: optical.
         download (bool, optional): If true, downloads the dataset from the internet and puts it \
             in root directory. If dataset is already downloaded, it is not downloaded again.
         transform (callable, optional): A function/transform that  takes in an PIL image and returns a \
@@ -25,9 +25,19 @@ class Optical_ISAR(ImageList):
         isar/
             bicycle/
                 *.jpg
-                ...
+                ... 749 images
             car/
+                ... 376 images
+            truck/
+                ... 749 images
         optical/
+            bicycle/
+                *.jpg
+                ... 4180 images
+            car/
+                ... 10,965 images
+            truck/
+                ... 6221  images
         image_list/
             isar.txt
             optical.txt
@@ -43,7 +53,7 @@ class Optical_ISAR(ImageList):
         "i": "image_list/isar.txt",
         "o": "image_list/optical.txt",
     }
-    CLASSES = ['bicycle', 'car']
+    CLASSES = ['bicycle', 'car', 'truck']
 
     def __init__(self, root: str, task: str, download: Optional[bool] = False, **kwargs):
         assert task in self.image_list

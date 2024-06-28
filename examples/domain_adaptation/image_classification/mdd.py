@@ -9,6 +9,8 @@ import argparse
 import os.path as osp
 import shutil
 
+import pandas as pd
+
 import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
@@ -27,11 +29,15 @@ from tllib.utils.logger import CompleteLogger
 from tllib.utils.analysis import collect_feature, tsne, a_distance
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+torch.cuda.empty_cache()
 
 def main(args: argparse.Namespace):
     logger = CompleteLogger(args.log, args.phase)
-    print(args)
+
+    df = pd.DataFrame(columns=['Arguments', 'Input'])
+    df['Arguments'] = vars(args).keys()
+    df['Input'] = vars(args).values()
+    print(df)
 
     if args.seed is not None:
         random.seed(args.seed)
@@ -105,13 +111,13 @@ def main(args: argparse.Namespace):
         print(acc1)
         return
     
-    checkpoint = torch.load(args.pretrain, map_location='cpu')
-    classifier.load_state_dict(checkpoint)
+    # checkpoint = torch.load(args.pretrain, map_location='cpu')
+    # classifier.load_state_dict(checkpoint)
 
     # start training
     best_acc1 = 0.
     for epoch in range(args.epochs):
-        print(lr_scheduler.get_lr())
+        print(lr_scheduler.get_last_lr())
         # train for one epoch
         train(train_source_iter, train_target_iter, classifier, mdd, optimizer,
               lr_scheduler, epoch, args)
