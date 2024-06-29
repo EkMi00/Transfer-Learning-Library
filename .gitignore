@@ -2,7 +2,7 @@
 *.jpg
 *.zip
 *.pth
-src/logs/
+logs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -140,3 +140,4 @@ examples/domain_adaptation/digits/data/*
 +.DS_Store
 */.DS_Store
 *.webp
+
