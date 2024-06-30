@@ -111,8 +111,9 @@ def main(args: argparse.Namespace):
         print(acc1)
         return
     
-    # checkpoint = torch.load(args.pretrain, map_location='cpu')
-    # classifier.load_state_dict(checkpoint)
+    if args.pretrain:
+        checkpoint = torch.load(args.pretrain, map_location='cpu')
+        classifier.load_state_dict(checkpoint)
 
     # start training
     best_acc1 = 0.
