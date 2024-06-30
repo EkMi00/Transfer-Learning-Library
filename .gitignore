@@ -1,8 +1,9 @@
+logs/
+
 *.png
 *.jpg
 *.zip
 *.pth
-logs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
