@@ -1,0 +1,57 @@
+          Arguments                                       Input
+0              root                           data/optical-isar
+1              data                                Optical_ISAR
+2            source                                         [o]
+3            target                                         [i]
+4    train_resizing                                     default
+5      val_resizing                                     default
+6       resize_size                                         224
+7             scale                                 [0.08, 1.0]
+8             ratio                  [0.75, 1.3333333333333333]
+9          no_hflip                                       False
+10        norm_mean                       (0.485, 0.456, 0.406)
+11         norm_std                       (0.229, 0.224, 0.225)
+12             arch                                    resnet50
+13         pretrain  logs/mdd/optical-isar/checkpoints/best.pth
+14   bottleneck_dim                                        1024
+15          no_pool                                       False
+16          scratch                                       False
+17           margin                                         4.0
+18        trade_off                                         1.0
+19       batch_size                                         128
+20               lr                                       0.004
+21         lr_gamma                                      0.0002
+22         lr_decay                                        0.75
+23         momentum                                         0.9
+24               wd                                      0.0005
+25          workers                                           2
+26           epochs                                           5
+27  iters_per_epoch                                        1000
+28       print_freq                                         100
+29             seed                                           1
+30   per_class_eval                                       False
+31              log                       logs/mdd/optical-isar
+32            phase                                        test
+examples/domain_adaptation/image_classification/mdd.py:46: UserWarning: You have chosen to seed training. This will turn on the CUDNN deterministic setting, which can slow down your training considerably! You may see unexpected behavior when restarting from checkpoints.
+  warnings.warn('You have chosen to seed training. '
+train_transform:  Compose(
+    Compose(
+    ResizeImage(size=(256, 256))
+    RandomResizedCrop(size=(224, 224), scale=(0.08, 1.0), ratio=(0.75, 1.3333), interpolation=bilinear)
+)
+    RandomHorizontalFlip(p=0.5)
+    ToTensor()
+    Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
+)
+val_transform:  Compose(
+    Compose(
+    ResizeImage(size=(256, 256))
+    CenterCrop(size=(224, 224))
+)
+    ToTensor()
+    Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
+)
+=> using model 'resnet50'
+Test: [ 0/15]	Time 10.198 (10.198)	Loss 7.6589e-01 (7.6589e-01)	Acc@1  71.09 ( 71.09)
+ * Acc@1 44.130
+44.13020279516914
