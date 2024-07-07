@@ -132,12 +132,13 @@ def main(args: argparse.Namespace):
             shutil.copy(logger.get_checkpoint_path('latest'), logger.get_checkpoint_path('best'))
         best_acc1 = max(acc1, best_acc1)
 
-    print("best_acc1 = {:3.1f}".format(best_acc1))
-
     # evaluate on test set
     classifier.load_state_dict(torch.load(logger.get_checkpoint_path('best')))
+    
+    # with torch.no_grad():
+    #     cls_acc = accuracy(y_s, labels_s)[0]
     acc1 = utils.validate(test_loader, classifier, args, device)
-    print("test_acc1 = {:3.1f}".format(acc1))
+    print("best_test_acc = {:3.1f}".format(acc1))
 
     logger.close()
 
@@ -154,11 +155,14 @@ def train(train_source_iter: ForeverDataIterator, train_target_iter: ForeverData
     progress = ProgressMeter(
         args.iters_per_epoch,
         [batch_time, data_time, losses, trans_losses, cls_accs],
-        prefix="Epoch: [{}]".format(epoch))
+        prefix="Epoch: [{}]".format(epoch + 1))
 
     # switch to train mode
     classifier.train()
     mdd.train()
+    
+    best_loss = 1e+3
+    best_acc = 0.0
 
     end = time.time()
     for i in range(args.iters_per_epoch):
@@ -202,9 +206,16 @@ def train(train_source_iter: ForeverDataIterator, train_target_iter: ForeverData
         # measure elapsed time
         batch_time.update(time.time() - end)
         end = time.time()
-
+        
+        best_loss = min(losses.val, best_loss)
+        best_acc = max(cls_accs.val, best_acc)
+        
+        
         if i % args.print_freq == 0:
             progress.display(i)
+    
+    print("best_train_loss = {:3.3f}".format(best_loss))
+    print("best_train_acc = {:3.1f}".format(best_acc))
 
 
 if __name__ == '__main__':
